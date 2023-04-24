@@ -75,11 +75,11 @@ const createNewFunFacts = async (req, res) => {
     }
 
     if(!req?.body?.funfacts){
-        return res.status(400).json({"message": "State fun facts value required."});
+        return res.status(400).json({ "message": "State fun facts value required" });
     }
 
     if(!Array.isArray(req.body.funfacts)) {
-        return res.status(400).json({'message': "State fun facts value must be an array"});
+        return res.status(400).json({ "message": "State fun facts value must be an array" });
     }
 
     const statecode = req.params.state.toUpperCase();
@@ -98,6 +98,38 @@ const createNewFunFacts = async (req, res) => {
     mergeFunFacts();
 }
 
+const deleteFunFact = async (req, res) => {
+    // Display messages according to sample project when invalid state, no funfact, and not an array.
+    if (!req?.params?.state) {
+        return res.status(400).json({ "message": "Invalid state abbreviation parameter" });
+    }
+
+    if(!req?.body?.index){
+        return res.status(400).json({ "message": "State fun fact index value required" });
+    }
+
+    const statecode = req.params.state.toUpperCase();
+    try {
+        const state = await State.findOne({ stateCode: statecode }).exec();
+        const jsonstate = data.states.find( st => st.code == statecode);
+        let index = req.body.index;
+        if (!jsonstate.funfacts || index -1 == 0) {
+            return res.status(400).json({"message": `No Fun Facts found for ${jsonstate.state}`});
+        }
+        if(index > state.funfacts.length || index < 1 || !index) {
+            const state = data.states.find( st => st.code == statecode);
+            return res.status(400).json({"message": `No Fun Fact found at that index for ${jsonstate.state}`});
+        }
+        index -= 1;
+        state.funfacts.splice(index, 1);
+        const result = await state.save();
+        res.status(201).json(result);
+    } catch (err) {
+        console.error(err);
+    }
+    mergeFunFacts();
+}
+
 module.exports = {
     getAllStates,
     getState,
@@ -105,7 +137,8 @@ module.exports = {
     getNickname,
     getPopulation,
     getAdmission,
-    createNewFunFacts
+    createNewFunFacts,
+    deleteFunFact
 }
 
 /*

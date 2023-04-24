@@ -24,7 +24,7 @@ router.route('/:state/funfact')
     //.get(statesController.getFunFact)
     .post(statesController.createNewFunFacts)
     //.patch(statesController.updateFunFact)
-    //.delete(statesController.deleteFunFact)
+    .delete(statesController.deleteFunFact)
     ;
 
 module.exports = router;
