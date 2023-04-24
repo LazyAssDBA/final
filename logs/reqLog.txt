@@ -86,3 +86,12 @@
 20230424	10:58:44	5c84b826-6119-468e-9350-6df0f459b215	GET	undefined	/states/MT/population
 20230424	10:58:52	91c3449f-9b56-4ec5-b116-8df6c1289aea	GET	undefined	/states/XY/admission
 20230424	10:59:01	18eabe63-ffc9-421f-a8bd-84b761d25a7a	GET	undefined	/states/HI/admission
+20230424	11:26:03	f3ec162a-53fe-4d71-aced-b510939368d0	GET	undefined	/states/AL
+20230424	12:07:35	8d6ef9a8-d7c1-4c35-bd8f-6340aec27587	GET	undefined	/states
+20230424	12:08:31	8ac843f9-aafa-4ed1-a2cd-052966a7659a	GET	undefined	/states
+20230424	12:29:04	a5acb9b5-41ab-4607-8b94-c2e7ce040314	GET	undefined	/states
+20230424	12:44:07	9cf9bbda-1ae9-42f8-a095-cd2048cc82e6	POST	undefined	/states/AL/funfact
+20230424	12:45:34	143e4fce-6a39-42b0-85dd-2135e1567148	POST	undefined	/states/AL/funfact
+20230424	12:47:30	f25ed44d-5e5c-4d4a-be6e-794597ae33c5	POST	undefined	/states/AL/funfact
+20230424	12:48:16	92b77114-2bbc-4a12-9896-76ddbb223885	POST	undefined	/states/AL/funfact
+20230424	12:49:29	822f654b-2442-42e2-955b-8aef19484ff5	GET	undefined	/states/AL

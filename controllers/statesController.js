@@ -1,16 +1,32 @@
+// This gets the state data from the JSON file
 const data = {
     states: require('../model/statesData.json'),
     setStates: function (data) { this.states = data }
 };
 
+// This gets the funfacts from MongoDB
+const State = require('../model/State.js');
+
+// Tack the funfacts, if any, onto the JSON data for each state
+async function mergeFunFacts() {
+    for (const state in data.states) {
+        const funfact = await State.findOne({ stateCode: data.states[state].code }).exec();
+        if (funfact) {
+            data.states[state].funfacts = funfact.funfacts;
+        }
+    }
+}
+
+mergeFunFacts();
+
 const getAllStates = (req, res) => {
-    let states = data.states;
+    let result = data.states;
     if (req.query.contig === 'true') {
-        states = states.filter(state => state.code !== 'AK' && state.code !== 'HI');
+        const result = states.filter(st => st.code !== 'AK' && st.code !== 'HI');
     } else if (req.query.contig === 'false') {
         states = states.filter(state => state.code === 'AK' || state.code === 'HI');
     }
-    res.json(states);
+    res.json(result);
 }
 
 const getState = (req, res) => {
@@ -52,21 +68,34 @@ const getAdmission = (req, res) => {
     res.json(({ "state": `${state.state}`,"admitted": `${state.admission_date}`}))
 }
 
-const createNewFunfact = async (req, res) => {
-    if (!req?.body?.state) {
-        return res.status(400).json({ "message": `State Code ${req.params.state} not found` });
+const createNewFunFacts = async (req, res) => {
+    // Display messages according to sample project when invalid state, no funfact, and not an array.
+    if (!req?.params?.state) {
+        return res.status(400).json({ "message": "Invalid state abbreviation parameter" });
     }
 
-    try {
-        const result = await Employee.create({
-            firstname: req.body.firstname,
-            lastname: req.body.lastname
-        });
+    if(!req?.body?.funfacts){
+        return res.status(400).json({"message": "State fun facts value required."});
+    }
 
+    if(!Array.isArray(req.body.funfacts)) {
+        return res.status(400).json({'message': "State fun facts value must be an array"});
+    }
+
+    const statecode = req.params.state.toUpperCase();
+    try {
+        if(!await State.findOneAndUpdate({stateCode: statecode},{$push: {"funfacts": req.body.funfacts}})){   
+            await State.create({ 
+                stateCode: statecode,
+                funfacts: req.body.funfacts
+            });
+        }
+        const result = await State.findOne({stateCode: statecode}).exec();
         res.status(201).json(result);
     } catch (err) {
         console.error(err);
     }
+    mergeFunFacts();
 }
 
 module.exports = {
@@ -75,7 +104,8 @@ module.exports = {
     getCapital,
     getNickname,
     getPopulation,
-    getAdmission
+    getAdmission,
+    createNewFunFacts
 }
 
 /*
