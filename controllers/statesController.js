@@ -32,7 +32,7 @@ const getAllStates = (req, res) => {
 const getState = (req, res) => {
     const state = data.states.find(st => st.code === req.params.state.toUpperCase());
     if (!state) {
-        return res.status(400).json({ "message": `State Code ${req.params.state} not found`})
+        return res.status(400).json({ "message": "Invalid state abbreviation parameter" })
     }
     res.json(state);
 }
@@ -40,7 +40,7 @@ const getState = (req, res) => {
 const getCapital = (req, res) => {
     const state = data.states.find(st => st.code === req.params.state.toUpperCase());
     if (!state) {
-        return res.status(400).json({ "message": `State Code ${req.params.state} not found`})
+        return res.status(400).json({ "message": "Invalid state abbreviation parameter" })
     }
     res.json(({ "state": `${state.state}`,"capital": `${state.capital_city}`}))
 }
@@ -48,7 +48,7 @@ const getCapital = (req, res) => {
 const getNickname = (req, res) => {
     const state = data.states.find(st => st.code === req.params.state.toUpperCase());
     if (!state) {
-        return res.status(400).json({ "message": `State Code ${req.params.state} not found`})
+        return res.status(400).json({ "message": "Invalid state abbreviation parameter" })
     }
     res.json(({ "state": `${state.state}`,"nickname": `${state.nickname}`}))
 }
@@ -56,14 +56,14 @@ const getNickname = (req, res) => {
 const getPopulation = (req, res) => {
     const state = data.states.find(st => st.code === req.params.state.toUpperCase());
     if (!state) {
-        return res.status(400).json({ "message": `State Code ${req.params.state} not found`})
+        return res.status(400).json({ "message": "Invalid state abbreviation parameter" })
     }
     res.json(({ "state": `${state.state}`,"population": `${state.population}`}))
 }
 const getAdmission = (req, res) => {
     const state = data.states.find(st => st.code === req.params.state.toUpperCase());
     if (!state) {
-        return res.status(400).json({ "message": `State Code ${req.params.state} not found`})
+        return res.status(400).json({ "message": "Invalid state abbreviation parameter" })
     }
     res.json(({ "state": `${state.state}`,"admitted": `${state.admission_date}`}))
 }
