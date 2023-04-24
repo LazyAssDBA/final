@@ -23,10 +23,11 @@ const getAllStates = (req, res) => {
     let result = data.states;
     if (req.query.contig === 'true') {
         const result = states.filter(st => st.code !== 'AK' && st.code !== 'HI');
+        res.json(result);
     } else if (req.query.contig === 'false') {
-        states = states.filter(state => state.code === 'AK' || state.code === 'HI');
+        const result = states.filter(state => state.code === 'AK' || state.code === 'HI');
+        res.json(result);
     }
-    res.json(result);
 }
 
 const getState = (req, res) => {
