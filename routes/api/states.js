@@ -3,25 +3,21 @@ const router = express.Router();
 const statesController = require('../../controllers/statesController');
 
 router.route('/')
-    .get(statesController.getAllStates)
-    //.post()
-    //.patch()
-    //.delete()
-    ;
+    .get(statesController.getAllStates);
 
-router.route('/:id')
+router.route('/:state')
     .get(statesController.getState)
 
-router.route('/:id/capital')
+router.route('/:state/capital')
     .get(statesController.getCapital)
 
-    router.route('/:id/nickname')
+    router.route('/:state/nickname')
     .get(statesController.getNickname)
 
-    router.route('/:id/population')
+    router.route('/:state/population')
     .get(statesController.getPopulation)
 
-    router.route('/:id/admission')
+    router.route('/:state/admission')
     .get(statesController.getAdmission)
 
 module.exports = router;

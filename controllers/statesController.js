@@ -14,47 +14,47 @@ const getAllStates = (req, res) => {
 }
 
 const getState = (req, res) => {
-    const state = data.states.find(st => st.code === req.params.id.toUpperCase());
+    const state = data.states.find(st => st.code === req.params.state.toUpperCase());
     if (!state) {
-        return res.status(400).json({ "message": `State Code ${req.params.id} not found`})
+        return res.status(400).json({ "message": `State Code ${req.params.state} not found`})
     }
     res.json(state);
 }
 
 const getCapital = (req, res) => {
-    const state = data.states.find(st => st.code === req.params.id.toUpperCase());
+    const state = data.states.find(st => st.code === req.params.state.toUpperCase());
     if (!state) {
-        return res.status(400).json({ "message": `State Code ${req.params.id} not found`})
+        return res.status(400).json({ "message": `State Code ${req.params.state} not found`})
     }
     res.json(({ "state": `${state.state}`,"capital": `${state.capital_city}`}))
 }
 
 const getNickname = (req, res) => {
-    const state = data.states.find(st => st.code === req.params.id.toUpperCase());
+    const state = data.states.find(st => st.code === req.params.state.toUpperCase());
     if (!state) {
-        return res.status(400).json({ "message": `State Code ${req.params.id} not found`})
+        return res.status(400).json({ "message": `State Code ${req.params.state} not found`})
     }
     res.json(({ "state": `${state.state}`,"nickname": `${state.nickname}`}))
 }
 
 const getPopulation = (req, res) => {
-    const state = data.states.find(st => st.code === req.params.id.toUpperCase());
+    const state = data.states.find(st => st.code === req.params.state.toUpperCase());
     if (!state) {
-        return res.status(400).json({ "message": `State Code ${req.params.id} not found`})
+        return res.status(400).json({ "message": `State Code ${req.params.state} not found`})
     }
     res.json(({ "state": `${state.state}`,"population": `${state.population}`}))
 }
 const getAdmission = (req, res) => {
-    const state = data.states.find(st => st.code === req.params.id.toUpperCase());
+    const state = data.states.find(st => st.code === req.params.state.toUpperCase());
     if (!state) {
-        return res.status(400).json({ "message": `State Code ${req.params.id} not found`})
+        return res.status(400).json({ "message": `State Code ${req.params.state} not found`})
     }
     res.json(({ "state": `${state.state}`,"admitted": `${state.admission_date}`}))
 }
 
 const createNewFunfact = async (req, res) => {
-    if (!req?.body?.id) {
-        return res.status(400).json({ "message": `State Code ${req.params.id} not found` });
+    if (!req?.body?.state) {
+        return res.status(400).json({ "message": `State Code ${req.params.state} not found` });
     }
 
     try {
