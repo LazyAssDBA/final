@@ -86,7 +86,6 @@ const createNewFunFacts = async (req, res) => {
     } catch (err) {
         console.error(err);
     }
-    mergeFunFacts();
 }
 
 const deleteFunFact = async (req, res) => {
@@ -116,7 +115,6 @@ const deleteFunFact = async (req, res) => {
 
     const result = await state.save();
     res.status(201).json(result);
-    mergeFunFacts();
 }
 
 const getFunFact = async (req, res) => {
@@ -165,7 +163,6 @@ const updateFunFact = async (req, res) => {
 
     const result = await state.save();
     res.status(201).json(result);
-    mergeFunFacts();
 }
 
 module.exports = {
