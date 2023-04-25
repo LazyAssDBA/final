@@ -112,7 +112,7 @@ const deleteFunFact = async (req, res) => {
         return res.status(400).json({"message": `No Fun Fact found at that index for ${jsonstate.state}`});
     index -= 1;
     funfactsArray.splice(index, 1);
-
+    state.funfacts = funfactsArray;
     const result = await state.save();
     res.status(201).json(result);
 }
@@ -160,7 +160,7 @@ const updateFunFact = async (req, res) => {
 
     index -= 1;
     funfactsArray[index] = funfact;
-
+    state.funfacts = funfactsArray;
     const result = await state.save();
     res.status(201).json(result);
 }
