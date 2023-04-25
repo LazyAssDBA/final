@@ -20,14 +20,17 @@ async function mergeFunFacts() {
 mergeFunFacts();
 
 const getAllStates = (req, res) => {
-    let result = data.states;
+    let states = data.states;
     if (req.query.contig === 'true') {
         const result = states.filter(st => st.code !== 'AK' && st.code !== 'HI');
         res.json(result);
+        return;
     } else if (req.query.contig === 'false') {
         const result = states.filter(state => state.code === 'AK' || state.code === 'HI');
         res.json(result);
+        return
     }
+    res.json(states);
 }
 
 const getState = (req, res) => {
@@ -101,7 +104,7 @@ const createNewFunFacts = async (req, res) => {
 }
 
 const deleteFunFact = async (req, res) => {
-    // Display messages according to sample project when invalid state, no funfact, and not an array.
+    // Display messages according to testing site when invalid state, no funfact, and not an array.
     if (!req?.params?.state) {
         return res.status(400).json({ "message": "Invalid state abbreviation parameter" });
     }
@@ -126,10 +129,10 @@ const deleteFunFact = async (req, res) => {
         state.funfacts.splice(index, 1);
         const result = await state.save();
         res.status(201).json(result);
+        mergeFunFacts();
     } catch (err) {
         console.error(err);
     }
-    mergeFunFacts();
 }
 
 module.exports = {
