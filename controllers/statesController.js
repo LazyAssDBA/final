@@ -116,6 +116,7 @@ const deleteFunFact = async (req, res) => {
     state.funfacts = funfactsArray;
     const result = await state.save();
     res.status(201).json(result);
+    mergeFunFacts();
 }
 
 const getFunFact = async (req, res) => {
@@ -161,7 +162,7 @@ const updateFunFact = async (req, res) => {
 
     index -= 1;
     funfactsArray[index] = funfact;
-    state.funfacts = funfactsArray;
+    state.funfacts[index] = funfactsArray[index];
     const result = await state.save();
     res.status(201).json(result);
 }
