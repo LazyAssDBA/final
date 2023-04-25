@@ -136,3 +136,4 @@
 20230424	21:10:18	ab6dd54e-12e9-456e-b1fa-784522b405f7	GET	undefined	/states/NE/funfact
 20230424	21:10:24	332faeca-8e89-48ae-8377-ad329819549e	GET	undefined	/states/NEw/funfact
 20230424	21:10:30	9681716b-9846-4bc7-8357-a0086710d331	GET	undefined	/states/NE/funfact
+20230424	21:23:20	6a53fc22-161b-4de6-8b11-973938b7c182	POST	undefined	/states/HI/funfact
