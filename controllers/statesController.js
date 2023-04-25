@@ -40,55 +40,35 @@ const getAllStates = (req, res) => {
 
 const getState = (req, res) => {
     const state = statesData.states.find(st => st.code === req.params.state.toUpperCase());
-/*     if (!state) {
-        return res.status(400).json({ "message": "Invalid state abbreviation parameter" })
-    } */
     res.json(state);
 }
 
 const getCapital = (req, res) => {
     const stateCode = req.params.state;
     const state = statesData.states.find(st => st.code === req.params.state.toUpperCase());
-/*     if (!state) {
-        return res.status(400).json({ "message": "Invalid state abbreviation parameter" })
-    } */
     res.json(({ "state": `${state.state}`,"capital": `${state.capital_city}`}))
 }
 
 const getNickname = (req, res) => {
     const state = statesData.states.find(st => st.code === req.params.state.toUpperCase());
-/*     if (!state) {
-        return res.status(400).json({ "message": "Invalid state abbreviation parameter" })
-    } */
     res.json(({ "state": `${state.state}`,"nickname": `${state.nickname}`}))
 }
 
 const getPopulation = (req, res) => {
     const state = statesData.states.find(st => st.code === req.params.state.toUpperCase());
-/*     if (!state) {
-        return res.status(400).json({ "message": "Invalid state abbreviation parameter" })
-    } */
     // Need to return population with commas as thousands separator.
     res.json({ "state": state.state,"population": state.population.toLocaleString("en-US")});
 }
 const getAdmission = (req, res) => {
     const state = statesData.states.find(st => st.code === req.params.state.toUpperCase());
-/*     if (!state) {
-        return res.status(400).json({ "message": "Invalid state abbreviation parameter" })
-    } */
     res.json(({ "state": `${state.state}`,"admitted": `${state.admission_date}`}))
 }
 
 const createNewFunFacts = async (req, res) => {
-    // Display messages according to sample project when invalid state, no funfact, and not an array.
-/*     if (!req?.params?.state) {
-        return res.status(400).json({ "message": "Invalid state abbreviation parameter" });
-    } */
-
+    // Display messages according to sample project when no funfact or not an array.
     if(!req?.body?.funfacts){
         return res.status(400).json({ "message": "State fun facts value required" });
     }
-
     if(!Array.isArray(req.body.funfacts)) {
         return res.status(400).json({ "message": "State fun facts value must be an array" });
     }
@@ -110,11 +90,6 @@ const createNewFunFacts = async (req, res) => {
 }
 
 const deleteFunFact = async (req, res) => {
-/*     // Display messages according to testing site when invalid state, no funfact, and not an array.
-    if (!req?.params?.state) {
-        return res.status(400).json({ "message": "Invalid state abbreviation parameter" });
-    } */
-
     if(!req?.body?.index){
         return res.status(400).json({ "message": "State fun fact index value required" });
     }
