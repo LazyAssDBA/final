@@ -133,6 +133,41 @@ const getFunFact = async (req, res) => {
     }
 }
 
+const updateFunFact = async (req, res) => {
+    let index = req.body.index;
+    let validIndex = false;
+    try {
+        index = parseInt(index);
+        validIndex = index > 0;
+    } catch (err) {
+        validIndex = false;
+    }
+    if (!validIndex)
+    return res.status(400).json({ "message": "State fun fact index value required" });
+
+    const funfact = req.body.funfact;
+    if (!funfact)
+        return res.status(400).json({ message: "State fun fact value required" });
+
+    const statecode = req.params.state.toUpperCase();
+    const state = await State.findOne({ stateCode: statecode }).exec();
+    const funfactsArray = state?.funfacts ? state.funfacts : [];
+    const jsonstate = statesData.states.find( st => st.code === statecode);
+
+    if (!funfactsArray.length)
+        return res.status(400).json({"message": `No Fun Facts found for ${jsonstate.state}`});
+
+    if (index > funfactsArray.length)
+        return res.status(400).json({"message": `No Fun Fact found at that index for ${jsonstate.state}`});
+
+    index -= 1;
+    funfactsArray[index] = funfact;
+
+    const result = await state.save();
+    res.status(201).json(result);
+    mergeFunFacts();
+}
+
 module.exports = {
     getAllStates,
     checkStateCode,
@@ -143,5 +178,6 @@ module.exports = {
     getAdmission,
     createNewFunFacts,
     deleteFunFact,
-    getFunFact
+    getFunFact,
+    updateFunFact
 }
