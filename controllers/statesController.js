@@ -135,6 +135,19 @@ const deleteFunFact = async (req, res) => {
     }
 }
 
+const getFunFact = async (req, res) => {
+    const statecode = req.params.state;
+    const state = await State.findOne({ stateCode: statecode.toUpperCase() }).exec();
+    const funfactsArray = state?.funfacts ? state.funfacts : [];
+    const index = Math.floor(Math.random() * funfactsArray.length);
+    const stateData = data.states.find(st => st.code === statecode.toUpperCase());
+    res.json(
+        funfactsArray.length 
+        ? { funfact: funfactsArray[index]} 
+        : { message: `No Fun Facts found for ${stateData.state}`}
+    );
+};
+
 module.exports = {
     getAllStates,
     getState,
@@ -143,5 +156,6 @@ module.exports = {
     getPopulation,
     getAdmission,
     createNewFunFacts,
-    deleteFunFact
+    deleteFunFact,
+    getFunFact
 }
