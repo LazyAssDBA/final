@@ -21,7 +21,7 @@ router.route('/:state/admission')
     .get(statesController.getAdmission);
 
 router.route('/:state/funfact')
-    //.get(statesController.getFunFact)
+    .get(statesController.getFunFact)
     .post(statesController.createNewFunFacts)
     //.patch(statesController.updateFunFact)
     .delete(statesController.deleteFunFact)

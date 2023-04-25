@@ -135,6 +135,29 @@ const deleteFunFact = async (req, res) => {
     }
 }
 
+const getFunFacts = async (req, res) => {
+    let code = req.params.code;
+    code = code.toUpperCase();
+    for(x = 0; x < data.states.length; x++) {
+        let array = Object.entries(data.states).map(([key,value])=>value);
+        if(code == array[x].code){
+            var facts = await State.findOne({ stateCode: code }).exec();
+            var result = data.states.filter(obj=> obj.code == code);
+            var updatedState = result[0].state;
+            if(facts != null) {
+                var resultObject = { funfacts: facts.funfacts };
+                var resultIndex = Math.floor(Math.random() * resultObject.funfacts.length);
+                var funfact = resultObject.funfacts[resultIndex];
+                var updatedReturn = { funfact };
+                
+                return res.json(updatedReturn);
+            }  
+            return res.json({"message": `No Fun Facts found for ${updatedState}`});
+        }
+    } 
+    return res.json({"message":"Invalid state abbreviation parameter"});
+}
+
 module.exports = {
     getAllStates,
     getState,
@@ -143,7 +166,8 @@ module.exports = {
     getPopulation,
     getAdmission,
     createNewFunFacts,
-    deleteFunFact
+    deleteFunFact,
+    getFunFacts
 }
 
 /*
