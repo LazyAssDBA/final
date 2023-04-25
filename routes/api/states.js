@@ -5,6 +5,9 @@ const statesController = require('../../controllers/statesController');
 router.route('/')
     .get(statesController.getAllStates);
 
+router.route('/:state*')
+    .all(statesController.checkStateCode);
+
 router.route('/:state')
     .get(statesController.getState);
 

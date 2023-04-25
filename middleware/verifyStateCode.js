@@ -1,4 +1,4 @@
-const statesData = require('../models/statesData.json');
+const statesData = require('../model/statesData.json');
 
 function verifyStateCode(stateCode) {
         const state = statesData.find( st => st.code === stateCode.toUpperCase());
