@@ -86,6 +86,7 @@ const createNewFunFacts = async (req, res) => {
     } catch (err) {
         console.error(err);
     }
+    mergeFunFacts();
 }
 
 const deleteFunFact = async (req, res) => {
