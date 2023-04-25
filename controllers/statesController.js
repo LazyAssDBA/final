@@ -103,7 +103,7 @@ const deleteFunFact = async (req, res) => {
 
     const statecode = req.params.state.toUpperCase();
     const state = await State.findOne({ stateCode: statecode }).exec();
-    const funfactsArray = state?.funfact ? state.funfacts : [];
+    const funfactsArray = state?.funfacts ? state.funfacts : [];
     const jsonstate = statesData.states.find( st => st.code === statecode);
 
     if (!funfactsArray.length)
@@ -119,6 +119,20 @@ const deleteFunFact = async (req, res) => {
     mergeFunFacts();
 }
 
+const getFunFact = async (req, res) => {
+    const statecode = req.params.state.toUpperCase();
+    const state = await State.findOne({ stateCode: statecode }).exec();
+    const funfactsArray = state?.funfacts ? state.funfacts : [];
+    const jsonstate = statesData.states.find( st => st.code === statecode);
+    const randomIndex = Math.floor(Math.random() * funfactsArray.length);
+
+    if (funfactsArray.length) {
+        return res.status(201).json({ funfact: funfactsArray[randomIndex] })
+    } else {
+        return res.status(400).json({ message: `No Fun Facts found for ${jsonstate.state}` });
+    }
+}
+
 module.exports = {
     getAllStates,
     checkStateCode,
@@ -128,5 +142,6 @@ module.exports = {
     getPopulation,
     getAdmission,
     createNewFunFacts,
-    deleteFunFact
+    deleteFunFact,
+    getFunFact
 }
