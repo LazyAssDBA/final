@@ -90,30 +90,33 @@ const createNewFunFacts = async (req, res) => {
 }
 
 const deleteFunFact = async (req, res) => {
-    if(!req?.body?.index){
-        return res.status(400).json({ "message": "State fun fact index value required" });
+    let index = req.body.index;
+    let validIndex = false;
+    try {
+        index = parseInt(index);
+        validIndex = index > 0;
+    } catch (err) {
+        validIndex = false;
     }
+    if (!validIndex)
+    return res.status(400).json({ "message": "State fun fact index value required" });
 
     const statecode = req.params.state.toUpperCase();
-    try {
-        const state = await State.findOne({ stateCode: statecode }).exec();
-        const jsonstate = statesData.states.find( st => st.code == statecode);
-        let index = req.body.index;
-        if (!jsonstate.funfacts || index -1 == 0) {
-            return res.status(400).json({"message": `No Fun Facts found for ${jsonstate.state}`});
-        }
-        if(index > state.funfacts.length || index < 1 || !index) {
-            const state = statesData.states.find( st => st.code == statecode);
-            return res.status(400).json({"message": `No Fun Fact found at that index for ${jsonstate.state}`});
-        }
-        index -= 1;
-        state.funfacts.splice(index, 1);
-        const result = await state.save();
-        res.status(201).json(result);
-        mergeFunFacts();
-    } catch (err) {
-        console.error(err);
-    }
+    const state = await State.findOne({ stateCode: statecode }).exec();
+    const funfactsArray = state?.funfact ? state.funfacts : [];
+    const jsonstate = statesData.states.find( st => st.code === statecode);
+
+    if (!funfactsArray.length)
+        return res.status(400).json({"message": `No Fun Facts found for ${jsonstate.state}`});
+
+    if (index > funfactsArray.length)
+        return res.status(400).json({"message": `No Fun Fact found at that index for ${jsonstate.state}`});
+    index -= 1;
+    funfactsArray.splice(index, 1);
+
+    const result = await state.save();
+    res.status(201).json(result);
+    mergeFunFacts();
 }
 
 module.exports = {
